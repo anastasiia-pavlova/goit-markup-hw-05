@@ -8,16 +8,21 @@
   --main-background-color: #ffffff;
   --studio-text-color: #000000;
   --second-background-color: #2f303a;
+  --task-bachground-color: rgba(47, 48, 58, 0.8);
   --button-background-color: #188ce8;
   --filter-button-color: #f5f4fa;
   --team-background-color: #f5f4fa;
   --portfolio-border-color: #eeeeee;
+  --portfolio-background-color: rgba(33, 150, 243, 0.9);
   --header-border-color: #ececec;
   --hero-background-color: #c4c4c4;
   --gradient-color: rgba(47, 48, 58, 0.4);
   --features-bg-color: #f5f4fa;
   --social-client-links-color: #afb1b8;
   --footer-link-bgc: rgba(255, 255, 255, 0.1);
+  --transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-duration: 250ms;
+  --backdrop-bg-color: rgba(0, 0, 0, 0.2);
 }
 /* Общие стили для двух страниц */
 
@@ -119,6 +124,8 @@ img {
   font-weight: 500;
   line-height: 1.14;
   letter-spacing: 0.02em;
+
+  transition: color var(--transition-duration) var(--transition-timing-function);
 }
 
 .navigation .link:hover,
@@ -128,6 +135,22 @@ img {
 
 .navigation .link.current {
   color: var(--complementary-accent-color);
+  position: relative;
+}
+
+.navigation .link.current::after {
+  content: "";
+
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+
+  display: block;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+
+  background-color: var(--complementary-accent-color);
 }
 
 /* Контакты в шапке */
@@ -142,14 +165,17 @@ img {
 }
 
 .contact .link {
-  color: var(--complementary-text-color);
-  font-weight: 500;
-  line-height: 1.14;
-  letter-spacing: 0.02em;
   padding-top: 32px;
   padding-bottom: 32px;
   display: flex;
   align-items: center;
+
+  color: var(--complementary-text-color);
+  font-weight: 500;
+  line-height: 1.14;
+  letter-spacing: 0.02em;
+
+  transition: color var(--transition-duration) var(--transition-timing-function);
 }
 
 .contact .link:hover,
@@ -213,6 +239,9 @@ img {
   text-align: center;
   letter-spacing: 0.06em;
   cursor: pointer;
+
+  transition: background-color var(--transition-duration)
+    var(--transition-timing-function);
 }
 
 .button.primary:hover,
@@ -235,7 +264,7 @@ img {
   margin-left: 30px;
 }
 
-.thumb {
+.features-list .thumb {
   display: flex;
   margin-bottom: 30px;
   align-items: center;
@@ -307,6 +336,24 @@ img {
   width: calc(100% / 3 - 30px);
   margin-top: 30px;
   margin-left: 30px;
+
+  position: relative;
+}
+
+.task-list .description {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding-top: 27px;
+  padding-bottom: 27px;
+
+  font-weight: 700;
+  line-height: 1.14;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--accent-text-color);
+  background-color: var(--task-bachground-color);
 }
 
 /* Наша команда */
@@ -368,6 +415,7 @@ img {
   width: 20px;
   height: 20px;
   fill: var(--social-client-links-color);
+  transition: fill var(--transition-duration) var(--transition-timing-function);
 }
 
 .social-links .item + .item {
@@ -381,6 +429,9 @@ img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+
+  transition: background-color var(--transition-duration)
+    var(--transition-timing-function);
 }
 
 .social-links .link:focus,
@@ -416,12 +467,17 @@ img {
   border-radius: 4px;
   height: 92px;
   color: var(--social-client-links-color);
+
+  transition: border var(--transition-duration)
+    var(--transition-timing-function);
 }
 
 .clients-icon {
   width: 106px;
   height: 60px;
   fill: currentColor;
+
+  transition: fill var(--transition-duration) var(--transition-timing-function);
 }
 
 .clients-list .link:focus,
@@ -475,6 +531,10 @@ img {
   color: var(--footer-mail-tel-color);
 }
 
+.address .link {
+  transition: color var(--transition-duration) var(--transition-timing-function);
+}
+
 .address .link:hover,
 .address .link:focus {
   color: var(--complementary-accent-color);
@@ -498,6 +558,69 @@ img {
 }
 .footer .social-icons {
   fill: var(--accent-text-color);
+}
+
+/* Модальное окно */
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--backdrop-bg-color);
+
+  transition: opacity var(--transition-duration)
+      var(--transition-timing-function),
+    visibility var(--transition-duration) var(--transition-timing-function);
+}
+
+.backdrop.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.backdrop.is-hidden .modal {
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+
+  width: 528px;
+  min-height: 581px;
+  border-radius: 4px;
+  background-color: var(--main-background-color);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+
+  transition: transform var(--transition-duration)
+    var(--transition-timing-function);
+}
+
+.button-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--main-background-color);
+}
+
+.btn-close {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 /* Страница портфолио */
@@ -531,6 +654,11 @@ img {
   text-align: center;
   letter-spacing: inherit;
   cursor: pointer;
+
+  transition: color var(--transition-duration) var(--transition-timing-function),
+    background-color var(--transition-duration)
+      var(--transition-timing-function),
+    box-shadow var(--transition-duration) var(--transition-timing-function);
 }
 
 .button.filter:hover,
@@ -561,6 +689,8 @@ img {
 
 .portfolio-link {
   display: block;
+  transition: box-shadow var(--transition-duration)
+    var(--transition-timing-function);
 }
 
 .portfolio-link:hover,
@@ -568,6 +698,32 @@ img {
   outline: none;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
     1px 4px 6px rgba(0, 0, 0, 0.16);
+}
+
+.portfolio-item .thumb {
+  position: relative;
+  overflow: hidden;
+}
+.portfolio-information {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 63px 24px;
+
+  font-size: 18px;
+  line-height: 1.56;
+  color: var(--accent-text-color);
+  background-color: var(--portfolio-background-color);
+
+  transform: translateY(101%);
+  transition: transform var(--transition-duration)
+    var(--transition-timing-function);
+}
+
+.portfolio-link:hover .portfolio-information {
+  transform: translateY(0);
 }
 
 .portfolio-description {
