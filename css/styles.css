@@ -583,6 +583,7 @@ img {
 
 .backdrop.is-hidden .modal {
   transform: translate(-50%, -50%) scale(0.5);
+  opacity: 0;
 }
 
 .modal {
@@ -599,7 +600,8 @@ img {
     0px 2px 1px rgba(0, 0, 0, 0.2);
 
   transition: transform var(--transition-duration)
-    var(--transition-timing-function);
+      var(--transition-timing-function),
+    opacity var(--transition-duration) var(--transition-timing-function);
 }
 
 .button-close {
@@ -722,7 +724,8 @@ img {
     var(--transition-timing-function);
 }
 
-.portfolio-link:hover .portfolio-information {
+.portfolio-link:hover .portfolio-information,
+.portfolio-link:focus .portfolio-information {
   transform: translateY(0);
 }
 
